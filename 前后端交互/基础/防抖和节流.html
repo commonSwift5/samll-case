@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<button class="btn">防抖</button>
+		<button class="jl">节流</button>
+		<script>
+			// 防抖 最后一次触发 时间触发N秒后再执行回调
+			var btn = document.querySelector('.btn')
+			var timer = null
+			btn.addEventListener('click', function () {
+				if (timer) clearTimeout(timer)
+				timer = setTimeout(function () {
+					console.log('防抖')
+				}, 2000)
+			})
+			// throttling，当持续触发事件时，保证隔间时间触发一次事件。先触发
+
+			var jl = document.querySelector('.jl')
+			var jlTimer = null
+			jl.addEventListener('click', function () {
+				if (jlTimer) return
+				jlTimer = setTimeout(function () {
+					console.log('节流')
+					jlTimer = null
+				}, 1000)
+			})
+		</script>
+	</body>
+</html>
