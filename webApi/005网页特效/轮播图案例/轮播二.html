@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			ul {
+				width: 600px;
+				height: 300px;
+				margin: 50px auto;
+				overflow: hidden;
+				position: relative;
+			}
+			li {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 600px;
+				height: 300px;
+				list-style: none;
+				transition: all 2s;
+			}
+			li img {
+				width: 100%;
+				height: 100%;
+			}
+			.box .active {
+				opacity: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<ul class="box">
+			<li><img src="assets/s_01.jpg" alt="" /></li>
+		</ul>
+		<script>
+			var index = 1
+			setInterval(function () {
+				index++
+				index = index % 9
+				document.querySelector('img').src = `./assets/s_0${index}.jpg`
+			}, 2000)
+
+			// 轮播图逻辑
+			/***
+			 * 通过更改src 进行轮播
+			 * **/
+		</script>
+	</body>
+</html>
