@@ -8,5 +8,63 @@
 	</head>
 	<body>
 		<img src="/webApi/001基础案例/images/b01.jpg" alt="" />
+		<script>
+			// 如果数组里的第一个字符串包含了第二个字符串中的所有字母，则返回 true。
+			function mutation(arr) {
+				var str1 = arr[0].toLowerCase()
+				var str2 = arr[1].toLowerCase()
+				for (var i = 0; i < str2.length; i++) {
+					if (str1.indexOf(str2[i]) == -1) {
+						return false
+					}
+				}
+				return true
+			}
+			//	给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。
+			function findMedianSortedArrays(nums1, nums2) {
+				var arr = nums1.concat(nums2)
+				arr.sort(function (a, b) {
+					return a - b
+				})
+				var len = arr.length
+				if (len % 2 == 0) {
+					return (arr[len / 2] + arr[len / 2 - 1]) / 2
+				} else {
+					return arr[Math.floor(len / 2)]
+				}
+			}
+			// 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+			// 有效字符串需满足：
+			// 左括号必须用相同类型的右括号闭合。
+			// 左括号必须以正确的顺序闭合。
+			// 注意空字符串可被认为是有效字符串。
+			function isValid(s) {
+				var arr = []
+				for (var i = 0; i < s.length; i++) {
+					if (s[i] == '(' || s[i] == '[' || s[i] == '{') {
+						arr.push(s[i])
+					} else {
+						if (arr.length == 0) {
+							return false
+						}
+						var str = arr.pop()
+						if (s[i] == ')' && str != '(') {
+							return false
+						}
+						if (s[i] == ']' && str != '[') {
+							return false
+						}
+						if (s[i] == '}' && str != '{') {
+							return false
+						}
+					}
+				}
+				if (arr.length == 0) {
+					return true
+				} else {
+					return false
+				}
+			}
+		</script>
 	</body>
 </html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<table>
+			<thead>
+				<caption>商品</caption>
+			</thead>
+			<tbody>
+				<tr>
+					<td>炸鸡</td>
+					<td>28元</td>
+					<td><button id="zjtaiduola">-</button></td>
+					<td><span id="zjsl">0</span></td>
+					<td><button id="zjtaishaola">+</button></td>
+				</tr>
+				<tr>
+					<td>可乐</td>
+					<td>5元</td>
+					<td><button id="kltaiduola">-</button></td>
+					<td><span id="klsl">0</span></td>
+					<td><button id="kltaishaola">+</button></td>
+				</tr>
+				<tr>
+					<td>总价：</td>
+					<td><span id="total">0</span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<script type="text/javascript">
+			// 补全代码
+			var zjtaiduola = document.querySelector('#zjtaiduola')
+			var zjsl = document.querySelector('#zjsl')
+			var zjtaishaola = document.querySelector('#zjtaishaola')
+			var kltaiduola = document.querySelector('#kltaiduola')
+			var klsl = document.querySelector('#klsl')
+			var kltaishaola = document.querySelector('#kltaishaola')
+			var total = document.querySelector('#total')
+
+			var sum1 = 0
+			var sum2 = 0
+			zjtaiduola.addEventListener('click', function () {
+				if (Number(zjsl.innerText) <= 0) return
+				zjsl.innerText = Number(zjsl.innerText) - 1
+				sum1 = 28 * Number(zjsl.innerText)
+				total.innerText = sum1 + sum2
+			})
+			zjtaishaola.addEventListener('click', function () {
+				zjsl.innerText = Number(zjsl.innerText) + 1
+				sum1 = 28 * Number(zjsl.innerText)
+				total.innerText = sum1 + sum2
+			})
+			kltaiduola.addEventListener('click', function () {
+				if (Number(klsl.innerText) <= 0) return
+				klsl.innerText = Number(klsl.innerText) - 1
+				sum2 = 5 * Number(klsl.innerText)
+				total.innerText = sum1 + sum2
+			})
+			kltaishaola.addEventListener('click', function () {
+				klsl.innerText = Number(klsl.innerText) + 1
+				sum2 = 5 * Number(klsl.innerText)
+				total.innerText = sum1 + sum2
+			})
+		</script>
+	</body>
+</html>

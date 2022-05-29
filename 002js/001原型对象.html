@@ -8,15 +8,18 @@
 	</head>
 	<body>
 		<script>
-			// data不能是对象的原因
-			function Ceshi() {}
-			Ceshi.prototype.data = {
-				a: 1
+			function getInteger(array) {
+				// write code here
+				var arr = []
+				for (let i = 0; i < array.length; i++) {
+					if (typeof array[i] == 'number' && array[i] % 1 == 0) {
+						array.push(array[i])
+					}
+				}
+				return arr
 			}
-			var obj = new Ceshi()
-			obj.data.a = 2
-			var obj1 = new Ceshi()
-			console.log(obj1)
+			var arr = [1, 3, 3.5]
+			console.log(getInteger(arr))
 		</script>
 	</body>
 </html>

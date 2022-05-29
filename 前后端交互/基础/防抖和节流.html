@@ -30,6 +30,36 @@
 					jlTimer = null
 				}, 1000)
 			})
+			// 写个节流函数
+			// 当持续触发事件时，保证隔间时间触发一次事件。先触发
+			function throttle(fn, delay) {
+				var timer = null
+				return function () {
+					var context = this
+					var args = arguments
+					if (!timer) {
+						timer = setTimeout(function () {
+							fn.apply(context, args)
+							timer = null
+						}, delay)
+					}
+				}
+			}
+
+			// 判断是不是数字
+			function isNumber(num) {
+				return typeof num === 'number'
+			}
+			// 判断是不是数组
+
+			function isArray(arr) {
+				return Object.prototype.toString.call(arr) === '[object Array]'
+			}
+
+			// 判断是不是对象
+			function isObject(obj) {
+				return Object.prototype.toString.call(obj) === '[object Object]'
+			}
 		</script>
 	</body>
 </html>

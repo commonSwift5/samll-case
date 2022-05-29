@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			// 手写Promise
+			function Promise(fn) {
+				var state = 'pending'
+				var value
+				var callbacks = []
+				var resolve = function (result) {
+					state = 'resolved'
+					value = result
+					callbacks.forEach(function (callback) {
+						callback(result)
+					})
+				}
+				var reject = function (reason) {
+					state = 'rejected'
+					value = reason
+					callbacks.forEach(function (callback) {
+						callback(reason)
+					})
+				}
+				fn(resolve, reject)
+				this.then = function (onFulfilled, onRejected) {
+					var promise2 = new Promise(function (resolve, reject) {
+						if (state === 'resolved') {
+							setTimeout(function () {
+								try {
+									var x = onFulfilled(value)
+									resolve(x)
+								} catch (e) {
+									reject(e)
+								}
+							}, 0)
+						}
+						if (state === 'rejected') {
+							setTimeout(function () {
+								try {
+									var x = onRejected(value)
+									resolve(x)
+								} catch (e) {
+									reject(e)
+								}
+							}, 0)
+						}
+						if (state === 'pending') {
+							callbacks.push(function (result) {
+								setTimeout(function () {
+									try {
+										var x = onFulfilled(result)
+										resolve(x)
+									} catch (e) {
+										reject(e)
+									}
+								}, 0)
+							})
+							callbacks.push(function (result) {
+								setTimeout(function () {
+									try {
+										var x = onRejected(result)
+										resolve(x)
+									} catch (e) {
+										reject(e)
+									}
+								}, 0)
+							})
+						}
+					})
+					return promise2
+				}
+			}
+		</script>
+	</body>
+</html>

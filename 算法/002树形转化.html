@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<script>
+			var list = [
+				{ id: 1, name: 'zhangsan', sub: [{ id: 4, name: 'ls' }] },
+				{ id: 2, name: 'lisi', sub: [{ id: 5, name: 'wangwu' }] },
+				{ id: 3, name: 'wangwu', sub: [{ id: 6, name: 'zhaoliu', sub: [{ id: 7, name: '老久' }] }] }
+			]
+			// 把sub 换成children
+			function change(arr) {
+				arr.forEach(item => {
+					if (item.sub) {
+						item.children = item.sub
+						change(item.sub)
+						delete item.sub
+					}
+				})
+			}
+			change(list)
+		</script>
+	</body>
+</html>
