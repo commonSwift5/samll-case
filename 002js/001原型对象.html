@@ -7,19 +7,28 @@
 		<title>Document</title>
 	</head>
 	<body>
+		<h1>原型对象</h1>
+		<img src="./img/proto.png" alt="">
+
+
 		<script>
-			function getInteger(array) {
-				// write code here
-				var arr = []
-				for (let i = 0; i < array.length; i++) {
-					if (typeof array[i] == 'number' && array[i] % 1 == 0) {
-						array.push(array[i])
-					}
-				}
-				return arr
+			function Person(name, age) {
+				this.name = name;
+				this.age = age;
 			}
-			var arr = [1, 3, 3.5]
-			console.log(getInteger(arr))
+			let p = new Person('张三', 20);
+			console.log(p.prototype); //undefined 构造函数创建对象 没有prototype属性
+			console.log(Person.prototype.__proto__); //Person {} 构造函数的原型对象
+			console.log(Person); //Person {} 构造函数的原型对象
+			console.log(p.constructor); //Person {} 构造函数的原型对象
+			console.log(p.__proto__); // 对象的原型对象要用__proto__属性访问
+			console.log(p.__proto__ === Person.prototype); //true
+			console.log(p.__proto__.__proto__ === Object.prototype); //true
+			console.log(p.constructor === Person); //true
+			console.log(Person.__proto__===Function.prototype); // true 构造函数的原型对象是Function的原型对象
+			console.dir(Person.constructor) //构造函数 是function
+			console.log(Person.__proto__===Person.constructor.prototype)//true 构造函数的原型对象是构造函数的原型对象
+			//因为Function也是一个函数，函数是一种对象，也有__proto__属性。既然是函数，那么它一定是被Function创建。所以Function是被自身创建的。所以它的__proto__指向了自身的Prototype。
 		</script>
 	</body>
 </html>
