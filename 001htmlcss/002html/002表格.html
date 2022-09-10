@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<table style="height: 400px; width: 600px" border="1">
+			<caption><strong>学生成绩单</strong></caption>
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>成绩</th>
+					<th>评语</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>小哥哥</td>
+					<td>100分</td>
+					<td>孩砸, 真棒啊</td>
+				</tr>
+				<tr>
+					<td>郭德纲</td>
+					<td>150分</td>
+					<td>没有郭德纲相声早黄了, 有了郭德纲, 相声更黄了</td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- 合并单元格 -->
+		<table border="1" width="300" height="300">
+			<caption>学生成绩单</caption>
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th>成绩</th>
+					<th>评语</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>张三</td>
+					<td rowspan="2">100</td>
+					<td>真棒, 第一名</td>
+				</tr>
+				<tr>
+					<td>李四</td>
+
+					<td>真棒, 第二名</td>
+				</tr>
+				<tr>
+					<td>总结</td>
+					<td colspan="2">郎才女貌</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="app">
+			<p v-text="name"></p>
+			<div v-text="name">
+				<span v-text="age"></span>
+			</div>
+			<p v-text="age"></p>
+			<input type="text" v-model="min" />
+		</div>
+		<script>
+			// 收集所有的事件
+			const Dep = {
+				map: {}, //map:{xx:[fn,fn,],xxx:[fn,fn]}
+				// 收集事件，
+				collect(eventName, fn) {
+					if (!this.map[eventName]) {
+						this.map[eventName] = []
+					}
+					this.map[eventName].push(fn)
+				},
+				// 事件触发器
+				trigger(eventName) {
+					this.map[eventName].forEach(fn => fn())
+				}
+			}
+
+			let data = {
+				name: '朱哥',
+				age: 29,
+				min: 12
+			}
+			//1.遍历说有key给每个属性设置get/set 作用监听数据的变化
+			Object.keys(data).forEach(key => {
+				defineReactive(data, key, data[key])
+			})
+			// 封装Object.defineReactive
+			function defineReactive(data, key, value) {
+				Object.defineProperty(data, key, {
+					get() {
+						return value
+					},
+					set(newValue) {
+						if (newValue === value) {
+							return
+						}
+						value = newValue
+						Dep.trigger(key) //值改变 触发key回调函数
+					}
+				})
+			}
+			// 渲染函数 根据节点渲染对应的值  值变动 渲染函数更新
+			function compile() {
+				let app = document.getElementById('app')
+				const childNodes = app.childNodes
+				childNodes.forEach(node => {
+					if (node.nodeType === 1) {
+						const attrs = node.attributes
+						// 得到属性值 根据属性值给末班赋值
+						Array.from(attrs).forEach(attr => {
+							const nodeName = attr.nodeName // 属性名 v-model,v-text
+							const nodeValue = attr.nodeValue //属性值 age, name
+							if (nodeName === 'v-text') {
+								node.innerText = data[nodeValue]
+								// 记录依赖
+								Dep.collect(nodeValue, function () {
+									node.innerText = data[nodeValue]
+								})
+							}
+							// v-model 视图改变 通过监听事件给set重新赋值 实现 视图到值的变化
+							if (nodeName === 'v-model') {
+								node.value = data[nodeValue] //赋值
+								Dep.collect(nodeValue, function () {
+									node.value = data[nodeValue]
+								})
+								node.addEventListener('input', function (e) {
+									data[nodeValue] = e.target.value
+								})
+							}
+						})
+					}
+				})
+			}
+			compile()
+			// 总结： 1.通过Object.defineProperty 给data所有属性设置getter,setter
+			//    2.通过compile 编译 把数据反应到视图
+			//    3.通过watcher实现 它会在组件渲染过程中接触过数据的属性记录为依赖
+			//   4.对应属性改变 触发 对应的依赖 trigger()
+		</script>
+	</body>
+</html>

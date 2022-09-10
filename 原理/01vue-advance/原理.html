@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="app">
+			<div v-text="name"></div>
+			<div v-text="age" ></div>
+			<input v-model="min"></input>
+		</div>
+		<script>
+			var data = {
+				name: '猪猪',
+				age: 18,
+				min: 9
+			}
+
+			const dep= {
+				map:{},
+				// 收集器
+				collent(attrValue,fn) {
+					if(!this.map[attrValue]) {
+						this.map[attrValue]=[]
+					}
+					this.map[attrValue].push(fn)
+				},
+				// 触发器
+				trigger(key) {
+					console.log(`触发了${key}`)
+					this.map[key].forEach(fn=>fn())
+				}
+				
+			}
+
+			// 1.把数据劫持转化为getter setter
+			Object.keys(data).forEach(key => {
+				defineReactive(data, key, data[key])
+			})
+			//    这个方法叫数据劫持  value 作用让两个函数联动起来
+			function defineReactive(data, key, value) {
+				Object.defineProperty(data, key, {
+					get() {
+						return value
+					},
+					set(newValue) {
+						value = newValue
+						dep.trigger(key)
+					}
+				})
+			}
+			// 渲染
+			function compile() {	
+				const app = document.querySelector("#app")
+				// 获取所有元素节点
+				const childNodes = app.children
+				const cNode =Array.from(childNodes)
+				cNode.forEach(item=>{
+					const attrs = Array.from(item.attributes)  //attr 是个数组  所有属性组成
+					attrs.forEach(attr => {
+						const attrName = attr.nodeName //v-text
+						const attrValue = attr.nodeValue // age,name
+						if(attrName==="v-text") {
+							item.innerText = data[attrValue]
+							dep.collent(attrValue,function() {
+								item.innerText=data[attrValue]
+							})
+						}
+						if(attrName==="v-model") {
+							item.value =data[attrValue]
+						// 	视图转数据 监听input 改变设置数据
+							dep.collent(attrValue,function() {
+								item.value=data[attrValue]
+							})
+							item.addEventListener('input',function(e){
+								data[attrValue]= e.target.value 
+							})
+						}
+					})
+				})	
+			}
+			compile() 
+				//发布订阅模式 
+			
+		</script>
+	</body>
+</html>
